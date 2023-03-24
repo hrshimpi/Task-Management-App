@@ -1,0 +1,83 @@
+<%- include('partials/head.ejs') -%>
+
+<%- include('partials/header'); -%>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 mx-auto mt-4 shadow-lg">
+            
+                <div class="card-body p-4">
+                  <h3 class="px-4">Edit Task <%= taskData._id %></h3>
+                    <!-- <script>
+                      var id =  JSON.stringify(taskData._id); 
+                    </script> -->
+                  
+                    <form action="/editTask/<%= taskData._id %>" method="post">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Enter Title</label>
+                            <input type="text" name="title" class="form-control" value="<%= taskData.title %>"">
+                          </div>
+                          <div class="mb-3">
+                            <label for="desc" class="form-label">Enter description</label>
+                            <textarea class="form-control" name="desc" rows="3"><%= taskData.desc %></textarea>
+                          </div>
+                          <!-- radio button for status updation -->
+
+                            <label for="status">Select the current status:</label>
+                            <select name="status">
+                                
+                                <option value="Backlog">backlog</option>
+                                <option value="Inprogress">InProgress</option>
+                                <option value="Completed">Completed</option>
+                                
+                            </select>
+                            <br><br>
+                          <button type="submit" class="btn" style="border-radius: 36px; background: #f7fe96;">Submit</button>
+                    </form>
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+
+//     const form = document.querySelector('form');
+
+//     form.
+
+    form.addEventListener('submit', async (e)=>{
+  
+      e.preventDefault();
+      // const id = req.body._id;
+      // console.log(taskData._id);
+      
+ 
+      const data=1
+      data.desc = FormData.get("desc");
+      data.title = FormData.get("title");
+      data.status =FormData.get("status");
+
+      console.log("title and desc",title,desc,status);
+      try {
+        const res = await fetch('/editTask', {
+          method:'POST',
+          body:JSON.stringify(data),
+          headers: { 'content-type':'application/json' }
+        })
+        const data2 = await res.json();
+  
+        // console.log("data is updated");
+          if(data2){
+            location.assign('/tasks');
+            }    
+        }
+        catch (err) {
+          console.log(err.message);
+        }   
+      })
+  
+</script>
+
+<%- include('partials/footer'); -%>

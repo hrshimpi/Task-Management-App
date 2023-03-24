@@ -1,0 +1,97 @@
+<%- include('partials/head.ejs') -%>
+<!-- <script type="application/javascript" src="../public/loginScript.js"></script> -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<%- include('partials/header'); -%>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 mx-auto mt-4 shadow-lg">
+            
+                <div class="card-body p-4">
+
+                    <h1 class="px-4">Please Login</h1>
+
+                    <form>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Enter Email</label>
+                            <input type="text" name="email" class="form-control" required>
+                            <div class="email error"></div>
+                            <!-- <div class="username error"></div> -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Enter Password</label>
+                            <input type="text" name="password" class="form-control" required>
+                            <div class="password error"></div>
+                        </div>
+
+                        <button class="btn fs-5 mt-3" style="border-radius: 36px; background: #f7fe96;" >Login</button>
+                    </form>
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- <script type="application/javascript" src="login.js"></script> -->
+<script>
+const form = document.querySelector('form');
+const emailError = document.querySelector('.email.error');
+const passwordError = document.querySelector('.password.error');
+
+form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+
+    //reset errors
+    emailError.textContent = '';
+    passwordError.textContent = '';
+
+    //get the values
+    const email = form.email.value;
+    const password = form.password.value;
+    
+    axios.post('/login', {
+        email,
+        password
+    })
+    .then(response => {
+        const data = response.data;
+        if(data.errors){
+            emailError.textContent = data.errors.email;
+            passwordError.textContent = data.errors.password;
+        }
+        if(data.user){
+            location.assign('/');
+        }
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+    // try {
+    //     const res = await fetch('/login', {
+    //         method:'POST',
+    //         body:JSON.stringify({email, password}),
+    //         headers: { 'content-type': 'application/json' }
+    //     });
+        
+    //     // console.log("res:",res)
+    //     const data = await res.json(); 
+    //     // const data = res;  
+    //     console.log(data);
+    //     // console.log("res:",res)
+        
+    //     if(data.errors){
+    //         emailError.textContent = data.errors.email;
+    //         passwordError.textContent = data.errors.password;
+    //     }
+    //     if(data.user){
+    //         location.assign('/');
+    //     }  
+    // } catch (error) {
+    //     console.log(error);
+    // }
+})
+</script>
+
+<%- include('partials/footer'); -%>

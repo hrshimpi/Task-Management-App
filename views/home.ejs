@@ -1,0 +1,36 @@
+<%- include('partials/head.ejs') -%>
+
+<%- include('partials/header'); -%>
+
+<header>
+ 
+  <div class="container-fluid mx-5 px-5 headings">
+    <div class="row">
+      <div class="col-lg-6 my-4">
+        <h2>Tasks Home page </h2>
+        <a href="/tasks" class="btn fs-4" style="border-radius: 36px; background: #FEE996; ">All Tasks</a>
+      </div>
+      <div class="col-lg-6 my-4">
+        User details
+        <h1>Name    :<%= user.name %></h1>
+        <h3>username:<%= user.username %></h3>
+        <h3>Age     :<%= user.age %></h3>
+        <h3>profile     :<%= user.profile %></h3>
+        <% if ( user.profile ) { %>
+        <img src="../<%= user.profile %>" alt="jqcks"  width="100" class="img-thumbnail mt-1"/>
+        <% } else { %>
+        <form action="/updateProfile/<%= user._id %>" method="post" enctype='multipart/form-data'>
+          <div class="mb-3">
+            <label for="profile" class="form-label">Upload profile photo</label>
+            <input type="file" name="profile" class="form-control" required>
+          </div>
+          <button type="submit" class="btn">Upload</button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<%- include('partials/footer'); -%>
